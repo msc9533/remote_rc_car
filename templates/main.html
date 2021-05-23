@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>main.html</title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+
+<body>
+
+    {% if session.get('logFlag') %}
+
+        userId : {{ session['userId'] }}
+
+        | <a href="/user_info_edit/{{ session['idx'] }}">Edit</a>
+
+        | <a href="/logout">Logout</a>
+         <br>
+         <br>
+          <img src="{{ url_for('video_feed') }}">
+        <form>  
+         <a herf=# id=forward><button class='btn btn-default'>forward</button></a>
+       <a herf=# id=backward><button class='btn btn-default'>backward</button></a>
+       <a herf=# id=right><button class='btn btn-default'>right</button></a>
+       <a herf=# id=left><button class='btn btn-default'>left</button></a>
+       <a herf=# id=stop><button class='btn btn-default'>stop</button></a>
+        </form>
+       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+              <script type=text/javascript>
+      $(function(){
+        $('a#forward').bind('click', function() {
+          $.get( 'forward')
+        });
+        return false;
+      });
+      $(function(){
+        $('a#backward').bind('click', function() {
+          $.get( 'backward')
+        });
+        return false;
+      });
+      $(function(){
+        $('a#right').bind('click', function() {
+          $.get( 'right')
+        });
+        return false;
+      });
+      $(function(){
+        $('a#left').bind('click', function() {
+          $.get( 'left')
+        });
+        return false;
+      });
+      $(function(){
+        $('a#stop').bind('click', function() {
+          $.get( 'stop')
+        });
+        return false;
+      });
+    </script> 
+
+
+    {% else %}
+
+        <a href="/login_form">Login</a>
+
+    {% endif %}
+
+    <hr>
+
+    main
+
+
+
+</body>
+
+</html>

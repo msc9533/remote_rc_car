@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>login/user_info.html</title>
+
+</head>
+
+<body>
+
+<form action="/user_info_edit_proc" method="post">
+
+    <input type="hidden" name="idx" value="{{ edit_idx }}">
+
+    <hr>
+
+    <p>modifying</p>
+
+    <hr>
+
+    User ID : {{ session.get('userId') }}<br>
+
+    User Pwd : <input type="password" name="userPwd"><br>
+
+    User Email : <input type="text" value="{{ edit_email }}" name="userEmail"><br>
+
+    <input type="submit" value="submit">
+
+    <input type="button" value="cancel">
+
+
+
+
+
+
+
+</form>
+
+</body>
+
+</html>
