@@ -148,5 +148,6 @@ def logout():
 
 
 if __name__ == '__main__':
+    app.secret_key = '5678'
     app.debug = True
     app.run(host='0.0.0.0', debug=True, threaded=True)
