@@ -9,6 +9,8 @@ import run_motor
 
 
 app = Flask(__name__)
+myangle = 50
+anglestep = 10
 
 def gen(camera):
     while True:
@@ -57,6 +59,24 @@ def left():
 @app.route("/stop")
 def stop():
     run_motor.stop()
+    return render_template('main.html')
+
+@app.route("/up")
+def up():
+    global myangle
+    myangle += anglestep
+    if myangle >= 180:
+        myangle = 180
+    run_motor.setServoPos(myangle)
+    return render_template('main.html')
+
+@app.route("/down")
+def down():
+    global myangle
+    myangle -= anglestep
+    if myangle < 0:
+        myangle = 0
+    run_motor.setServoPos(myangle)
     return render_template('main.html')
     
 
@@ -150,4 +170,5 @@ def logout():
 if __name__ == '__main__':
     app.secret_key = '5678'
     app.debug = True
-    app.run(host='0.0.0.0', debug=True, threaded=True)
+    # app.run(host='0.0.0.0', debug=True, threaded=True)
+    app.run(host='0.0.0.0', debug=True)

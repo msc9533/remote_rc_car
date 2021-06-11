@@ -2,65 +2,88 @@ import RPi.GPIO as GPIO
 import time
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(12, GPIO.OUT)
-GPIO.setup(5, GPIO.OUT)
-GPIO.setup(6, GPIO.OUT)
-GPIO.setup(13, GPIO.OUT)
+
+M1_DIR = 13
+M1_PWM = 19
+M2_DIR = 26
+M2_PWM = 16
+servoPin = 12
+
+SERVO_MAX_DUTY    = 12
+SERVO_MIN_DUTY    = 3
+
+SLEEP_TERM = 0.5
+
+GPIO.setup(M1_DIR, GPIO.OUT)
+GPIO.setup(M1_PWM, GPIO.OUT)
+GPIO.setup(M2_DIR, GPIO.OUT)
+GPIO.setup(M2_PWM, GPIO.OUT)
+
+def setServoPos(degree):
+    GPIO.setup(servoPin, GPIO.OUT)
+
+    servo = GPIO.PWM(servoPin, 50)
+    servo.start(0)
+    time.sleep(SLEEP_TERM)
+    if degree > 180:
+        degree = 180
+    duty = SERVO_MIN_DUTY+(degree*(SERVO_MAX_DUTY-SERVO_MIN_DUTY)/180.0)
+    servo.ChangeDutyCycle(duty)
+    time.sleep(SLEEP_TERM)
+    GPIO.cleanup(servoPin)
 
 def stop():
-    GPIO.output(12, GPIO.LOW)
-    GPIO.output(5, GPIO.LOW)
-    GPIO.output(6, GPIO.LOW)
-    GPIO.output(13, GPIO.LOW)
-    time.sleep(1)
+    GPIO.output(M1_DIR, GPIO.LOW)
+    GPIO.output(M1_PWM, GPIO.LOW)
+    GPIO.output(M2_DIR, GPIO.LOW)
+    GPIO.output(M2_PWM, GPIO.LOW)
+    time.sleep(SLEEP_TERM)
 
-def backward():
-    GPIO.output(12, GPIO.LOW)
-    GPIO.output(5, GPIO.HIGH)
-    
-    GPIO.output(6, GPIO.HIGH)
-    GPIO.output(13, GPIO.LOW)
-    
-    time.sleep(1)
-
-    stop()
-def forward():
-    GPIO.output(12, GPIO.HIGH)
-    GPIO.output(5, GPIO.LOW)
-    
-    GPIO.output(6, GPIO.LOW)
-    GPIO.output(13, GPIO.HIGH)
-    time.sleep(1)
-    stop()
-    
 def left():
-    GPIO.output(12, GPIO.LOW)
-    GPIO.output(5, GPIO.HIGH)
-    
-    GPIO.output(6, GPIO.LOW)
-    GPIO.output(13, GPIO.HIGH)
-    time.sleep(1)
+    GPIO.output(M1_DIR, GPIO.HIGH)
+    GPIO.output(M1_PWM, GPIO.LOW)
+    GPIO.output(M2_DIR, GPIO.HIGH)
+    GPIO.output(M2_PWM, GPIO.LOW)
+    time.sleep(SLEEP_TERM)
+    stop()
+
+def right():
+    GPIO.output(M1_DIR, GPIO.LOW)
+    GPIO.output(M1_PWM, GPIO.HIGH)
+    GPIO.output(M2_DIR, GPIO.LOW)
+    GPIO.output(M2_PWM, GPIO.HIGH)
+    time.sleep(SLEEP_TERM)
     stop()
     
-def right():
-    GPIO.output(12, GPIO.HIGH)
-    GPIO.output(5, GPIO.LOW)
+def backward():
+    GPIO.output(M1_DIR, GPIO.HIGH)
+    GPIO.output(M1_PWM, GPIO.LOW)
+    GPIO.output(M2_DIR, GPIO.LOW)
+    GPIO.output(M2_PWM, GPIO.HIGH)
+    time.sleep(SLEEP_TERM)
+    stop()
     
-    GPIO.output(6, GPIO.HIGH)
-    GPIO.output(13, GPIO.LOW)
-    time.sleep(1)
+def forward():
+    GPIO.output(M1_DIR, GPIO.LOW)
+    GPIO.output(M1_PWM, GPIO.HIGH)
+    GPIO.output(M2_DIR, GPIO.HIGH)
+    GPIO.output(M2_PWM, GPIO.LOW)
+    time.sleep(SLEEP_TERM)
     stop()
 
 if __name__ == "__main__":
+    print("st")
     stop()
-    time.sleep(3)
+    print("fw")
     forward()
-    time.sleep(3)
+    print("b")
     backward()
-    time.sleep(3)
+    print("r")
     right()
-    time.sleep(3)
+    print("l")
     left()
-    time.sleep(3)
     stop()
+    for i in range(0,180,10):
+        setServoPos(i)
+    setServoPos(0)
     GPIO.cleanup()

@@ -28,6 +28,9 @@
        <a herf=# id=right><button class='btn btn-default'>right</button></a>
        <a herf=# id=left><button class='btn btn-default'>left</button></a>
        <a herf=# id=stop><button class='btn btn-default'>stop</button></a>
+       <br>
+       <a herf=# id=up><button class='btn btn-default'>cam-up</button></a>
+       <a herf=# id=down><button class='btn btn-default'>cam-down</button></a>
         </form>
        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
               <script type=text/javascript>
@@ -58,6 +61,18 @@
       $(function(){
         $('a#stop').bind('click', function() {
           $.get( 'stop')
+        });
+        return false;
+      });
+      $(function(){
+        $('a#up').bind('click', function() {
+          $.get( 'up')
+        });
+        return false;
+      });
+      $(function(){
+        $('a#down').bind('click', function() {
+          $.get( 'down')
         });
         return false;
       });
